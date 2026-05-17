@@ -1,0 +1,258 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum ProficiencyLevel {
+  BEGINNER
+  ELEMENTARY
+  INTERMEDIATE
+  UPPER_INTERMEDIATE
+  ADVANCED
+}
+
+enum LessonProgressStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum GeneratedLessonStatus {
+  DRAFT
+  READY
+  ARCHIVED
+}
+
+enum ReviewContentType {
+  LESSON
+  VOCAB
+}
+
+enum LearningEventType {
+  LESSON_START
+  LESSON_PROGRESS
+  LESSON_COMPLETE
+  QUIZ_SUBMIT
+  REVIEW_DONE
+  FAVORITE_ADD
+  FAVORITE_REMOVE
+  LOGIN
+  REGISTER
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  name         String?
+  role         UserRole @default(USER)
+  expiresAt    DateTime? @map("expires_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  profile        UserProfile?
+  interests      UserInterest[]
+  generatedLessons GeneratedLesson[]
+  lessonProgress UserLessonProgress[]
+  quizAttempts   QuizAttempt[]
+  reviewQueue    ReviewQueue[]
+  learningEvents LearningEvent[]
+  favorites      Favorite[]
+
+  @@map("users")
+}
+
+model UserProfile {
+  id               String           @id @default(cuid())
+  userId           String           @unique @map("user_id")
+  displayName      String?          @map("display_name")
+  level            ProficiencyLevel @default(BEGINNER)
+  primaryInterestId String?         @map("primary_interest_id")
+  totalStudyMinutes Int             @default(0) @map("total_study_minutes")
+  streakDays       Int              @default(0) @map("streak_days")
+  lastStudyDate    DateTime?        @map("last_study_date")
+  createdAt        DateTime         @default(now()) @map("created_at")
+  updatedAt        DateTime         @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+model InterestTag {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  nameZh    String   @map("name_zh")
+  nameJa    String   @map("name_ja")
+  category  String
+  icon      String?
+  sortOrder Int      @default(0) @map("sort_order")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  userInterests UserInterest[]
+  themeVariants LessonThemeVariant[]
+
+  @@map("interest_tags")
+}
+
+model UserInterest {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  tagId     String   @map("tag_id")
+  isPrimary Boolean  @default(false) @map("is_primary")
+  weight    Int      @default(1)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tag  InterestTag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tagId])
+  @@map("user_interests")
+}
+
+model LessonTemplate {
+  id              String           @id @default(cuid())
+  slug            String           @unique
+  title           String
+  description     String
+  baseLevel       ProficiencyLevel   @map("base_level")
+  durationMinutes Int              @map("duration_minutes")
+  difficulty      Int              @default(1)
+  contentJson     Json             @map("content_json")
+  quizJson        Json             @map("quiz_json")
+  isActive        Boolean          @default(true) @map("is_active")
+  createdAt       DateTime         @default(now()) @map("created_at")
+
+  themeVariants    LessonThemeVariant[]
+  generatedLessons GeneratedLesson[]
+
+  @@map("lesson_templates")
+}
+
+model LessonThemeVariant {
+  id               String  @id @default(cuid())
+  templateId       String  @map("template_id")
+  themeTagId       String  @map("theme_tag_id")
+  titleOverride    String? @map("title_override")
+  contentPatchJson Json?   @map("content_patch_json")
+
+  template         LessonTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  themeTag         InterestTag    @relation(fields: [themeTagId], references: [id], onDelete: Cascade)
+  generatedLessons GeneratedLesson[]
+
+  @@unique([templateId, themeTagId])
+  @@map("lesson_theme_variants")
+}
+
+model GeneratedLesson {
+  id             String                @id @default(cuid())
+  userId         String?               @map("user_id")
+  templateId     String                @map("template_id")
+  themeVariantId String?               @map("theme_variant_id")
+  title          String
+  interestTagIds String[]              @map("interest_tag_ids")
+  level          ProficiencyLevel
+  contentJson    Json                  @map("content_json")
+  quizJson       Json                  @map("quiz_json")
+  status         GeneratedLessonStatus @default(READY)
+  createdAt      DateTime              @default(now()) @map("created_at")
+
+  user         User?               @relation(fields: [userId], references: [id], onDelete: SetNull)
+  template     LessonTemplate      @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  themeVariant LessonThemeVariant? @relation(fields: [themeVariantId], references: [id], onDelete: SetNull)
+
+  progress     UserLessonProgress[]
+  quizAttempts QuizAttempt[]
+  reviewItems  ReviewQueue[]
+  favorites    Favorite[]
+
+  @@map("generated_lessons")
+}
+
+model UserLessonProgress {
+  id              String               @id @default(cuid())
+  userId          String               @map("user_id")
+  lessonId        String               @map("lesson_id")
+  status          LessonProgressStatus @default(NOT_STARTED)
+  progressPercent Int                  @default(0) @map("progress_percent")
+  currentStep     Int                  @default(0) @map("current_step")
+  startedAt       DateTime?            @map("started_at")
+  completedAt     DateTime?            @map("completed_at")
+  lastAccessedAt  DateTime?            @map("last_accessed_at")
+
+  user   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson GeneratedLesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+  @@map("user_lesson_progress")
+}
+
+model QuizAttempt {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  lessonId    String   @map("lesson_id")
+  answersJson Json     @map("answers_json")
+  score       Int
+  passed      Boolean
+  submittedAt DateTime @default(now()) @map("submitted_at")
+
+  user   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson GeneratedLesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@map("quiz_attempts")
+}
+
+model ReviewQueue {
+  id           String            @id @default(cuid())
+  userId       String            @map("user_id")
+  contentType  ReviewContentType @map("content_type")
+  contentId    String            @map("content_id")
+  lessonId     String?           @map("lesson_id")
+  dueAt        DateTime          @map("due_at")
+  completedAt  DateTime?         @map("completed_at")
+  intervalDays Int               @default(1) @map("interval_days")
+  easeFactor   Float             @default(2.5) @map("ease_factor")
+
+  user   User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson GeneratedLesson? @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+
+  @@index([userId, dueAt])
+  @@map("review_queue")
+}
+
+model LearningEvent {
+  id         String            @id @default(cuid())
+  userId     String            @map("user_id")
+  eventType  LearningEventType @map("event_type")
+  payloadJson Json?          @map("payload_json")
+  createdAt  DateTime          @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("learning_events")
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  lessonId  String   @map("lesson_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson GeneratedLesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+  @@map("favorites")
+}
