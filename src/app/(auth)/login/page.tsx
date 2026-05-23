@@ -38,10 +38,6 @@ function LoginForm() {
         password: values.password,
         callbackUrl,
       });
-      if (result?.error) {
-        setError("登录失败，请检查邮箱和密码");
-        return;
-      }
     } catch (e) {
       setError(e instanceof ApiClientError ? e.message : "登录失败");
     } finally {
