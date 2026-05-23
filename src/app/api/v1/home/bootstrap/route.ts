@@ -4,8 +4,6 @@ import { requireAuthUser } from "@/lib/auth";
 import { success, handleApiError } from "@/lib/api-response";
 import { getCachedHomeRecommendations } from "@/lib/cache/home";
 
-export const dynamic = "force-dynamic";
-
 /** 单次请求返回用户信息 + 首页推荐，减少客户端往返 */
 export async function GET() {
   try {

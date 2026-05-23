@@ -5,8 +5,6 @@ import { success, handleApiError } from "@/lib/api-response";
 import { ensureUserLessons } from "@/lib/services/lesson-generator";
 import { getHomeRecommendations } from "@/lib/services/recommendation";
 
-export const dynamic = "force-dynamic";
-
 export async function POST() {
   try {
     const user = await requireAuthUser();
