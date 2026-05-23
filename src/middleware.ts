@@ -1,6 +1,7 @@
+export const runtime = "nodejs";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { auth } from "@/auth";
+import { getToken } from "next-auth/jwt";
 
 const publicPaths = ["/", "/login", "/register", "/expired"];
 
@@ -31,8 +32,10 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const session = await auth();
-  const token = session?.user;
+  const token = await getToken({
+  req: request,
+  secret: process.env.NEXTAUTH_SECRET,
+  });
 
   if (!token) {
     if (isApi) {
