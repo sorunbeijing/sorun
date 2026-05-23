@@ -36,14 +36,12 @@ function LoginForm() {
       const result = await signIn("credentials", {
         email: values.email,
         password: values.password,
-        redirect: false,
+        callbackUrl,
       });
       if (result?.error) {
         setError("登录失败，请检查邮箱和密码");
         return;
       }
-      router.push(callbackUrl);
-      router.refresh();
     } catch (e) {
       setError(e instanceof ApiClientError ? e.message : "登录失败");
     } finally {
