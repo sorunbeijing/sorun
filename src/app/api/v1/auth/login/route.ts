@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { LearningEventType } from "@prisma/client";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";

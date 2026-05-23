@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { requireAuthUser } from "@/lib/auth";
 import { success, handleApiError } from "@/lib/api-response";
 import { getCachedHomeRecommendations } from "@/lib/cache/home";

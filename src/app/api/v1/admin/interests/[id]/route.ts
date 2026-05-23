@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { prisma } from "@/lib/prisma";
 import { requireAdminUser } from "@/lib/auth";
 import { success, handleApiError } from "@/lib/api-response";

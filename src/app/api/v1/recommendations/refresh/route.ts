@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { revalidateTag } from "next/cache";
 import { requireAuthUser } from "@/lib/auth";
 import { success, handleApiError } from "@/lib/api-response";

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { LearningEventType } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { requireAuthUser } from "@/lib/auth";

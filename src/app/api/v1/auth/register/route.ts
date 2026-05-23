@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import bcrypt from "bcryptjs";
 import { LearningEventType } from "@prisma/client";
 import { prisma } from "@/lib/prisma";

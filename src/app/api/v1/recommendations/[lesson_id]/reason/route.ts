@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { requireAuthUser } from "@/lib/auth";
 import { success, fail, handleApiError } from "@/lib/api-response";
 import { ErrorCode } from "@/lib/errors";
