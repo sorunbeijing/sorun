@@ -9,7 +9,7 @@
  *   - 使用 slug / templateId+themeTagId 做 upsert，避免重复插入
  *   - 现有 5 个种子课程模板保留，本脚本新增 14领域×5等级=70 套课程
  */
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { ALL_DOMAINS, EXPECTED_LESSON_COUNT, getAllGeneratedLessons } from "./course-data/catalog";
 
 const prisma = new PrismaClient();
@@ -77,8 +77,8 @@ async function seedLessons(stats: ImportStats) {
         baseLevel: lesson.baseLevel,
         durationMinutes: lesson.durationMinutes,
         difficulty: lesson.difficulty,
-        contentJson: lesson.contentJson,
-        quizJson: lesson.quizJson,
+        contentJson: lesson.contentJson as Prisma.InputJsonValue,
+        quizJson: lesson.quizJson as Prisma.InputJsonValue,
         isActive: true,
       },
       create: {
@@ -88,8 +88,8 @@ async function seedLessons(stats: ImportStats) {
         baseLevel: lesson.baseLevel,
         durationMinutes: lesson.durationMinutes,
         difficulty: lesson.difficulty,
-        contentJson: lesson.contentJson,
-        quizJson: lesson.quizJson,
+        contentJson: lesson.contentJson as Prisma.InputJsonValue,
+        quizJson: lesson.quizJson as Prisma.InputJsonValue,
         isActive: true,
       },
     });

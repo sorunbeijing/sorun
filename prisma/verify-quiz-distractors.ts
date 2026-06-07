@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { analyzeDistractorReuse } from "./course-data/quiz-distractors";
+import { analyzeDistractorReuse, type QuizQuestion } from "./course-data/quiz-distractors";
 
 const prisma = new PrismaClient();
 
@@ -9,8 +9,7 @@ async function main() {
   });
   if (!template) throw new Error("not found");
 
-  const questions = (template.quizJson as { questions: Array<{ question: string; options: string[]; answer: number }> })
-    .questions;
+  const questions = (template.quizJson as { questions: QuizQuestion[] }).questions;
 
   const reuse = analyzeDistractorReuse(questions);
   const yanxi = questions.find((q) => q.question.includes("宴席"));
