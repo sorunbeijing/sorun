@@ -516,7 +516,8 @@ export function analyzeDistractorReuse(questions: QuizQuestion[]) {
       counts.set(key, (counts.get(key) ?? 0) + 1);
     }
   }
-  return [...counts.entries()]
+
+  return Array.from(counts.entries())
     .filter(([, n]) => n > 1)
     .sort((a, b) => b[1] - a[1]);
 }
