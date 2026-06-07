@@ -1,0 +1,553 @@
+import { ProficiencyLevel } from "@prisma/client";
+import { v } from "./vocab";
+import type { DomainSpec } from "./types";
+
+/** 游戏、电影、购物、职场、生活日常、交友社交 */
+export const DOMAINS_B: DomainSpec[] = [
+  {
+    slug: "gaming",
+    nameZh: "游戏",
+    nameJa: "ゲーム",
+    category: "entertainment",
+    icon: "🎮",
+    sortOrder: 9,
+    lessons: {
+      [ProficiencyLevel.BEGINNER]: {
+        title: "游戏角色",
+        description: "认识游戏角色相关基础词汇",
+        objectives: ["说出角色属性词", "简单介绍角色"],
+        vocab: [
+          v("游戏", "yóu xì", "ゲーム"),
+          v("角色", "jué sè", "キャラクター"),
+          v("等级", "děng jí", "レベル"),
+          v("玩家", "wán jiā", "プレイヤー"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "你玩什么游戏？", pinyin: "nǐ wán shén me yóu xì?", meaning: "何のゲームをしてる？" },
+          { speaker: "B", text: "我喜欢这个角色，等级很高。", pinyin: "wǒ xǐ huan zhè ge jué sè, děng jí hěn gāo", meaning: "このキャラが好き、レベルが高いんだ。" },
+        ],
+      },
+      [ProficiencyLevel.ELEMENTARY]: {
+        title: "任务关卡",
+        description: "描述游戏任务与关卡进度",
+        objectives: ["说明任务目标", "描述关卡难度"],
+        vocab: [
+          v("任务", "rèn wù", "クエスト"),
+          v("关卡", "guān qiǎ", "ステージ"),
+          v("通关", "tōng guān", "クリアする"),
+          v("奖励", "jiǎng lì", "報酬"),
+          v("困难", "kùn nan", "難しい"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "这个关卡很困难。", pinyin: "zhè ge guān qiǎ hěn kùn nan", meaning: "このステージは難しい。" },
+          { speaker: "B", text: "完成任务有奖励，一起通关吧。", pinyin: "wán chéng rèn wù yǒu jiǎng lì, yī qǐ tōng guān ba", meaning: "クエスト完了で報酬がある、一緒にクリアしよう。" },
+        ],
+      },
+      [ProficiencyLevel.INTERMEDIATE]: {
+        title: "升级装备",
+        description: "讨论角色升级与装备强化",
+        objectives: ["描述升级过程", "讨论装备选择"],
+        vocab: [
+          v("升级", "shēng jí", "レベルアップ"),
+          v("装备", "zhuāng bèi", "装備"),
+          v("技能", "jì néng", "スキル"),
+          v("强化", "qiáng huà", "強化"),
+          v("经验", "jīng yàn", "経験値"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "先攒经验再升级技能。", pinyin: "xiān zǎn jīng yàn zài shēng jí jì néng", meaning: "まず経験値を貯めてからスキルを上げよう。" },
+          { speaker: "B", text: "这件装备强化后更强。", pinyin: "zhè jiàn zhuāng bèi qiáng huà hòu gèng qiáng", meaning: "この装備は強化するともっと強くなる。" },
+        ],
+      },
+      [ProficiencyLevel.UPPER_INTERMEDIATE]: {
+        title: "联机合作",
+        description: "组队联机与配合策略",
+        objectives: ["邀请组队", "讨论配合战术"],
+        vocab: [
+          v("联机", "lián jī", "オンライン対戦"),
+          v("组队", "zǔ duì", "パーティを組む"),
+          v("配合", "pèi hé", "連携"),
+          v("语音", "yǔ yīn", "ボイスチャット"),
+          v("排位", "pái wèi", "ランクマッチ"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "今晚联机打排位吗？", pinyin: "jīn wǎn lián jī dǎ pái wèi ma?", meaning: "今夜ランクマやる？" },
+          { speaker: "B", text: "组队后开语音，配合更默契。", pinyin: "zǔ duì hòu kāi yǔ yīn, pèi hé gèng mò qì", meaning: "パーティしてボイスすれば連携が良くなる。" },
+        ],
+      },
+      [ProficiencyLevel.ADVANCED]: {
+        title: "电竞文化",
+        description: "讨论电竞产业与竞技精神",
+        objectives: ["谈论电竞生态", "表达竞技观点"],
+        vocab: [
+          v("电竞", "diàn jìng", "eスポーツ"),
+          v("选手", "xuǎn shǒu", "選手"),
+          v("直播", "zhí bō", "ライブ配信"),
+          v("赛事", "sài shì", "大会・トーナメント"),
+          v("粉丝", "fěn sī", "ファン"),
+          v("战术", "zhàn shù", "戦術"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "电竞赛事吸引了全球粉丝。", pinyin: "diàn jìng sài shì xī yǐn le quán qiú fěn sī", meaning: "eスポーツ大会は世界中のファンを引きつける。" },
+          { speaker: "B", text: "选手的战术执行力决定胜负。", pinyin: "xuǎn shǒu de zhàn shù zhí xíng lì jué dìng shèng fù", meaning: "選手の戦術遂行力が勝敗を決める。" },
+          { speaker: "A", text: "直播也让更多人了解电竞文化。", pinyin: "zhí bō yě ràng gèng duō rén liǎo jiě diàn jìng wén huà", meaning: "配信もeスポーツ文化の普及に役立つ。" },
+        ],
+      },
+    },
+  },
+  {
+    slug: "movies",
+    nameZh: "电影",
+    nameJa: "映画",
+    category: "entertainment",
+    icon: "🎬",
+    sortOrder: 10,
+    lessons: {
+      [ProficiencyLevel.BEGINNER]: {
+        title: "电影类型",
+        description: "认识常见电影类型词汇",
+        objectives: ["说出电影类型", "表达想看"],
+        vocab: [
+          v("电影", "diàn yǐng", "映画"),
+          v("喜剧", "xǐ jù", "コメディ"),
+          v("动作", "dòng zuò", "アクション"),
+          v("恐怖", "kǒng bù", "ホラー"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "你想看什么电影？", pinyin: "nǐ xiǎng kàn shén me diàn yǐng?", meaning: "何の映画を見たい？" },
+          { speaker: "B", text: "我想看喜剧，不要恐怖片。", pinyin: "wǒ xiǎng kàn xǐ jù, bú yào kǒng bù piàn", meaning: "コメディが見たい、ホラーは嫌だ。" },
+        ],
+      },
+      [ProficiencyLevel.ELEMENTARY]: {
+        title: "剧情简介",
+        description: "用简单句介绍电影剧情",
+        objectives: ["概括剧情", "说明角色关系"],
+        vocab: [
+          v("剧情", "jù qíng", "あらすじ"),
+          v("主角", "zhǔ jué", "主人公"),
+          v("结局", "jié jú", "結末"),
+          v("精彩", "jīng cǎi", "見どころがある"),
+          v("感人", "gǎn rén", "感動的"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "这部电影剧情很感人。", pinyin: "zhè bù diàn yǐng jù qíng hěn gǎn rén", meaning: "この映画のあらすじは感動的だ。" },
+          { speaker: "B", text: "主角很努力，结局很精彩。", pinyin: "zhǔ jué hěn nǔ lì, jié jú hěn jīng cǎi", meaning: "主人公は頑張っていて、結末も見どころがある。" },
+        ],
+      },
+      [ProficiencyLevel.INTERMEDIATE]: {
+        title: "角色感想",
+        description: "表达对电影角色与演技的看法",
+        objectives: ["评价角色塑造", "谈论演员表现"],
+        vocab: [
+          v("演技", "yǎn jì", "演技"),
+          v("角色", "jué sè", "役・キャラクター"),
+          v("塑造", "sù zào", "描写・塑造"),
+          v("立体", "lì tǐ", "立体的な"),
+          v("共鸣", "gòng míng", "共感"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "女主角塑造得很立体。", pinyin: "nǚ zhǔ jué sù zào de hěn lì tǐ", meaning: "ヒロインの描写はとても立体的だ。" },
+          { speaker: "B", text: "演技让我很有共鸣。", pinyin: "yǎn jì ràng wǒ hěn yǒu gòng míng", meaning: "演技に強く共感した。" },
+        ],
+      },
+      [ProficiencyLevel.UPPER_INTERMEDIATE]: {
+        title: "影评表达",
+        description: "撰写口头影评与评分理由",
+        objectives: ["给出评分理由", "分析镜头与叙事"],
+        vocab: [
+          v("镜头", "jìng tóu", "カメラワーク"),
+          v("叙事", "xù shì", "語り・ナラティブ"),
+          v("节奏", "jié zòu", "テンポ"),
+          v("配乐", "pèi yuè", "音楽・サントラ"),
+          v("口碑", "kǒu bēi", "評判"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "镜头和配乐提升了叙事节奏。", pinyin: "jìng tóu hé pèi yuè tí shēng le xù shì jié zòu", meaning: "カメラと音楽が物語のテンポを高めた。" },
+          { speaker: "B", text: "难怪口碑这么好。", pinyin: "nán guài kǒu bēi zhè me hǎo", meaning: "評判がいいのも納得だ。" },
+        ],
+      },
+      [ProficiencyLevel.ADVANCED]: {
+        title: "导演风格讨论",
+        description: "深入讨论导演风格与电影美学",
+        objectives: ["分析导演风格", "比较作品差异"],
+        vocab: [
+          v("导演", "dǎo yǎn", "監督"),
+          v("风格", "fēng gé", "スタイル"),
+          v("美学", "měi xué", "美学"),
+          v("隐喻", "yǐn yù", "メタファー"),
+          v("现实主义", "xiàn shí zhǔ yì", "リアリズム"),
+          v("作者性", "zuò zhě xìng", "作者性"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "这位导演的作品充满作者性。", pinyin: "zhè wèi dǎo yǎn de zuò pǐn chōng mǎn zuò zhě xìng", meaning: "この監督の作品には強い作者性がある。" },
+          { speaker: "B", text: "他擅长用隐喻表达现实主义主题。", pinyin: "tā shàn cháng yòng yǐn yù biǎo dá xiàn shí zhǔ yì zhǔ tí", meaning: "比喩でリアリズムのテーマを表現するのが得意だ。" },
+          { speaker: "A", text: "美学风格在每部作品里都很统一。", pinyin: "měi xué fēng gé zài měi bù zuò pǐn lǐ dōu hěn tǒng yī", meaning: "美学スタイルは作品ごとに一貫している。" },
+        ],
+      },
+    },
+  },
+  {
+    slug: "shopping",
+    nameZh: "购物",
+    nameJa: "ショッピング",
+    category: "lifestyle",
+    icon: "🛍️",
+    sortOrder: 11,
+    lessons: {
+      [ProficiencyLevel.BEGINNER]: {
+        title: "价格询问",
+        description: "在商店询问价格与数量",
+        objectives: ["询问价格", "表达购买意愿"],
+        vocab: [
+          v("多少钱", "duō shao qián", "いくら"),
+          v("便宜", "pián yi", "安い"),
+          v("贵", "guì", "高い"),
+          v("买", "mǎi", "買う"),
+        ],
+        dialogue: [
+          { speaker: "客人", text: "这个多少钱？", pinyin: "zhè ge duō shao qián?", meaning: "これはいくらですか？" },
+          { speaker: "店员", text: "不贵，你要买吗？", pinyin: "bú guì, nǐ yào mǎi ma?", meaning: "高くないですよ、買いますか？" },
+        ],
+      },
+      [ProficiencyLevel.ELEMENTARY]: {
+        title: "尺码颜色",
+        description: "挑选商品尺码与颜色",
+        objectives: ["询问尺码颜色", "请求试穿试用"],
+        vocab: [
+          v("尺码", "chǐ mǎ", "サイズ"),
+          v("颜色", "yán sè", "色"),
+          v("试穿", "shì chuān", "試着"),
+          v("大号", "dà hào", "大きいサイズ"),
+          v("小号", "xiǎo hào", "小さいサイズ"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "有大号的吗？我想试穿。", pinyin: "yǒu dà hào de ma? wǒ xiǎng shì chuān", meaning: "大きいサイズはありますか？試着したいです。" },
+          { speaker: "B", text: "这件颜色更适合你。", pinyin: "zhè jiàn yán sè gèng shì hé nǐ", meaning: "この色の方が似合いますよ。" },
+        ],
+      },
+      [ProficiencyLevel.INTERMEDIATE]: {
+        title: "退换货",
+        description: "办理退货换货与说明理由",
+        objectives: ["说明退换原因", "了解退换政策"],
+        vocab: [
+          v("退货", "tuì huò", "返品"),
+          v("换货", "huàn huò", "交換"),
+          v("发票", "fā piào", "レシート・領収書"),
+          v("质量", "zhì liàng", "品質"),
+          v("保修", "bǎo xiū", "保証"),
+        ],
+        dialogue: [
+          { speaker: "客人", text: "我想退货，质量有问题。", pinyin: "wǒ xiǎng tuì huò, zhì liàng yǒu wèn tí", meaning: "返品したいです、品質に問題があります。" },
+          { speaker: "店员", text: "请出示发票，可以换货或保修。", pinyin: "qǐng chū shì fā piào, kě yǐ huàn huò huò bǎo xiū", meaning: "レシートをお見せください、交換か保証ができます。" },
+        ],
+      },
+      [ProficiencyLevel.UPPER_INTERMEDIATE]: {
+        title: "网购评价",
+        description: "网购下单与撰写评价",
+        objectives: ["描述网购体验", "撰写商品评价"],
+        vocab: [
+          v("下单", "xià dān", "注文する"),
+          v("快递", "kuài dì", "宅配便"),
+          v("评价", "píng jià", "レビュー"),
+          v("物流", "wù liú", "物流"),
+          v("性价比", "xìng jià bǐ", "コスパ"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "我昨天下单，今天快递就到了。", pinyin: "wǒ zuó tiān xià dān, jīn tiān kuài dì jiù dào le", meaning: "昨日注文して今日届いた。" },
+          { speaker: "B", text: "性价比很高，我给五星评价。", pinyin: "xìng jià bǐ hěn gāo, wǒ gěi wǔ xīng píng jià", meaning: "コスパが良くて、星5のレビューを付けた。" },
+        ],
+      },
+      [ProficiencyLevel.ADVANCED]: {
+        title: "消费观念交流",
+        description: "讨论理性消费与购物习惯",
+        objectives: ["表达消费观", "讨论购物决策"],
+        vocab: [
+          v("理性", "lǐ xìng", "理性的"),
+          v("冲动", "chōng dòng", "衝動的"),
+          v("预算", "yù suàn", "予算"),
+          v("品牌", "pǐn pái", "ブランド"),
+          v("可持续", "kě chí xù", "サステナブル"),
+          v("消费", "xiāo fèi", "消費"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "理性消费比冲动购物更重要。", pinyin: "lǐ xìng xiāo fèi bǐ chōng dòng gòu wù gèng zhòng yào", meaning: "理性的な消費は衝動買いより大切だ。" },
+          { speaker: "B", text: "我会在预算内选择可持续品牌。", pinyin: "wǒ huì zài yù suàn nèi xuǎn zé kě chí xù pǐn pái", meaning: "予算内でサステナブルなブランドを選ぶ。" },
+          { speaker: "A", text: "好品牌不等于高消费。", pinyin: "hǎo pǐn pái bù děng yú gāo xiāo fèi", meaning: "良いブランドは高消費と同義ではない。" },
+        ],
+      },
+    },
+  },
+  {
+    slug: "workplace",
+    nameZh: "职场",
+    nameJa: "職場",
+    category: "career",
+    icon: "🏢",
+    sortOrder: 12,
+    lessons: {
+      [ProficiencyLevel.BEGINNER]: {
+        title: "同事问候",
+        description: "职场同事间的日常问候",
+        objectives: ["礼貌问候同事", "简单寒暄"],
+        vocab: [
+          v("同事", "tóng shì", "同僚"),
+          v("早上好", "zǎo shang hǎo", "おはよう"),
+          v("辛苦了", "xīn kǔ le", "お疲れ様"),
+          v("下班", "xià bān", "退勤"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "早上好，今天忙吗？", pinyin: "zǎo shang hǎo, jīn tiān máng ma?", meaning: "おはよう、今日忙しい？" },
+          { speaker: "B", text: "还好，辛苦了，下班见。", pinyin: "hái hǎo, xīn kǔ le, xià bān jiàn", meaning: "まあまあだよ、お疲れ様、また退勤時に。" },
+        ],
+      },
+      [ProficiencyLevel.ELEMENTARY]: {
+        title: "工作汇报",
+        description: "向上级汇报工作进展",
+        objectives: ["汇报进度", "说明完成情况"],
+        vocab: [
+          v("汇报", "huì bào", "報告"),
+          v("进度", "jìn dù", "進捗"),
+          v("完成", "wán chéng", "完了する"),
+          v("任务", "rèn wù", "タスク"),
+          v("延期", "yán qī", "延期"),
+        ],
+        dialogue: [
+          { speaker: "员工", text: "我来汇报一下任务进度。", pinyin: "wǒ lái huì bào yī xià rèn wù jìn dù", meaning: "タスクの進捗を報告します。" },
+          { speaker: "主管", text: "预计明天可以完成，不要延期。", pinyin: "yù jì míng tiān kě yǐ wán chéng, bú yào yán qī", meaning: "明日完了予定、延期しないで。" },
+        ],
+      },
+      [ProficiencyLevel.INTERMEDIATE]: {
+        title: "加班沟通",
+        description: "协调加班与工作安排",
+        objectives: ["说明加班原因", "协商时间"],
+        vocab: [
+          v("加班", "jiā bān", "残業"),
+          v("调休", "tiáo xiū", "振替休暇"),
+          v("紧急", "jǐn jí", "緊急"),
+          v("审批", "shěn pī", "承認・決裁"),
+          v("效率", "xiào lǜ", "効率"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "今晚可能要加班，有紧急任务。", pinyin: "jīn wǎn kě néng yào jiā bān, yǒu jǐn jí rèn wù", meaning: "今夜残業かも、緊急タスクがある。" },
+          { speaker: "B", text: "请先审批，下周可以调休。", pinyin: "qǐng xiān shěn pī, xià zhōu kě yǐ tiáo xiū", meaning: "まず決裁を、来週振替休暇を取って。" },
+        ],
+      },
+      [ProficiencyLevel.UPPER_INTERMEDIATE]: {
+        title: "面试表达",
+        description: "求职面试中的自我介绍与问答",
+        objectives: ["面试自我介绍", "回答职业规划"],
+        vocab: [
+          v("面试", "miàn shì", "面接"),
+          v("优势", "yōu shì", "強み"),
+          v("经验", "jīng yàn", "経験"),
+          v("岗位", "gǎng wèi", "ポジション"),
+          v("薪资", "xīn zī", "給与"),
+        ],
+        dialogue: [
+          { speaker: "面试官", text: "请说说你的优势和相关经验。", pinyin: "qǐng shuō shuo nǐ de yōu shì hé xiāng guān jīng yàn", meaning: "強みと関連経験を教えてください。" },
+          { speaker: "应聘者", text: "我希望在这个岗位长期发展。", pinyin: "wǒ xī wàng zài zhè ge gǎng wèi cháng qī fā zhǎn", meaning: "このポジションで長く成長したいです。" },
+        ],
+      },
+      [ProficiencyLevel.ADVANCED]: {
+        title: "职业规划",
+        description: "讨论职业发展与职场人际关系",
+        objectives: ["阐述职业规划", "处理职场关系"],
+        vocab: [
+          v("晋升", "jìn shēng", "昇進"),
+          v("跳槽", "tiào cáo", "転職"),
+          v("人脉", "rén mài", "人脈"),
+          v("瓶颈", "píng jǐng", "壁・ボトルネック"),
+          v("领导力", "lǐng dǎo lì", "リーダーシップ"),
+          v("平衡", "píng héng", "バランス"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "我遇到了职业瓶颈，在考虑跳槽。", pinyin: "wǒ yù dào le zhí yè píng jǐng, zài kǎo lǜ tiào cáo", meaning: "キャリアの壁に当たり、転職を考えている。" },
+          { speaker: "B", text: "提升领导力可能比跳槽更关键。", pinyin: "tí shēng lǐng dǎo lì kě néng bǐ tiào cáo gèng guān jiàn", meaning: "リーダーシップ向上の方が転職より重要かもしれない。" },
+          { speaker: "A", text: "工作与生活平衡也很重要。", pinyin: "gōng zuò yǔ shēng huó píng héng yě hěn zhòng yào", meaning: "仕事と生活のバランスも大切だ。" },
+        ],
+      },
+    },
+  },
+  {
+    slug: "daily-life",
+    nameZh: "生活日常",
+    nameJa: "日常生活",
+    category: "lifestyle",
+    icon: "🏠",
+    sortOrder: 13,
+    lessons: {
+      [ProficiencyLevel.BEGINNER]: {
+        title: "起床通勤",
+        description: "描述日常作息与通勤",
+        objectives: ["说出作息词汇", "描述通勤方式"],
+        vocab: [
+          v("起床", "qǐ chuáng", "起きる"),
+          v("上班", "shàng bān", "出勤"),
+          v("地铁", "dì tiě", "地下鉄"),
+          v("堵车", "dǔ chē", "渋滞"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "我每天七点起床。", pinyin: "wǒ měi tiān qī diǎn qǐ chuáng", meaning: "毎朝7時に起きる。" },
+          { speaker: "B", text: "我坐地铁上班，今天堵车了。", pinyin: "wǒ zuò dì tiě shàng bān, jīn tiān dǔ chē le", meaning: "地下鉄で出勤、今日は渋滞した。" },
+        ],
+      },
+      [ProficiencyLevel.ELEMENTARY]: {
+        title: "买东西",
+        description: "超市购物与日用品表达",
+        objectives: ["购买日用品", "询问商品位置"],
+        vocab: [
+          v("超市", "chāo shì", "スーパー"),
+          v("牛奶", "niú nǎi", "牛乳"),
+          v("蔬菜", "shū cài", "野菜"),
+          v("一共", "yī gòng", "合計"),
+          v("现金", "xiàn jīn", "現金"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "去超市买牛奶和蔬菜。", pinyin: "qù chāo shì mǎi niú nǎi hé shū cài", meaning: "スーパーで牛乳と野菜を買う。" },
+          { speaker: "B", text: "一共五十块，可以付现金。", pinyin: "yī gòng wǔ shí kuài, kě yǐ fù xiàn jīn", meaning: "合計50元、現金で払える。" },
+        ],
+      },
+      [ProficiencyLevel.INTERMEDIATE]: {
+        title: "看病就医",
+        description: "描述症状与就医流程",
+        objectives: ["描述身体不适", "完成挂号就诊"],
+        vocab: [
+          v("头疼", "tóu téng", "頭痛"),
+          v("发烧", "fā shāo", "熱がある"),
+          v("挂号", "guà hào", "受付・挂号"),
+          v("处方", "chǔ fāng", "処方箋"),
+          v("休息", "xiū xi", "休む"),
+        ],
+        dialogue: [
+          { speaker: "病人", text: "我头疼还发烧，来挂号。", pinyin: "wǒ tóu téng hái fā shāo, lái guà hào", meaning: "頭痛と熱があるので受付お願いします。" },
+          { speaker: "医生", text: "这是处方，好好休息。", pinyin: "zhè shì chǔ fāng, hǎo hǎo xiū xi", meaning: "処方箋です、ゆっくり休んでください。" },
+        ],
+      },
+      [ProficiencyLevel.UPPER_INTERMEDIATE]: {
+        title: "家务安排",
+        description: "分担家务与安排日常事务",
+        objectives: ["分配家务", "协调时间安排"],
+        vocab: [
+          v("家务", "jiā wù", "家事"),
+          v("打扫", "dǎ sǎo", "掃除"),
+          v("洗衣", "xǐ yī", "洗濯"),
+          v("轮流", "lún liú", "交代で"),
+          v("分担", "fēn dān", "分担する"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "今天我来打扫，你负责洗衣。", pinyin: "jīn tiān wǒ lái dǎ sǎo, nǐ fù zé xǐ yī", meaning: "今日は私が掃除、あなたは洗濯を担当して。" },
+          { speaker: "B", text: "家务我们轮流分担吧。", pinyin: "jiā wù wǒ men lún liú fēn dān ba", meaning: "家事は交代で分担しよう。" },
+        ],
+      },
+      [ProficiencyLevel.ADVANCED]: {
+        title: "生活哲学闲聊",
+        description: "日常闲聊中的生活态度表达",
+        objectives: ["分享生活感悟", "讨论生活节奏"],
+        vocab: [
+          v("节奏", "jié zòu", "ペース"),
+          v("独处", "dú chǔ", "一人の時間"),
+          v("仪式感", "yí shì gǎn", "仪式感・儀式性"),
+          v("治愈", "zhì yù", "癒し"),
+          v("琐碎", "suǒ suì", "些細な"),
+          v("从容", "cóng róng", "余裕がある"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "慢节奏的生活更能治愈我。", pinyin: "màn jié zòu de shēng huó gèng néng zhì yù wǒ", meaning: "ゆっくりしたペースの生活が私を癒す。" },
+          { speaker: "B", text: "琐碎日常也可以有仪式感。", pinyin: "suǒ suì rì cháng yě kě yǐ yǒu yí shì gǎn", meaning: "些細な日常にも仪式感を持てる。" },
+          { speaker: "A", text: "独处让我更从容地面对明天。", pinyin: "dú chǔ ràng wǒ gèng cóng róng de miàn duì míng tiān", meaning: "一人の時間が明日への余裕をくれる。" },
+        ],
+      },
+    },
+  },
+  {
+    slug: "social",
+    nameZh: "交友社交",
+    nameJa: "友人作り・社交",
+    category: "lifestyle",
+    icon: "🤝",
+    sortOrder: 14,
+    lessons: {
+      [ProficiencyLevel.BEGINNER]: {
+        title: "打招呼",
+        description: "初次见面与日常打招呼",
+        objectives: ["掌握问候语", "礼貌回应"],
+        vocab: [
+          v("你好", "nǐ hǎo", "こんにちは"),
+          v("认识", "rèn shi", "知り合う"),
+          v("高兴", "gāo xìng", "うれしい"),
+          v("朋友", "péng you", "友達"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "你好，很高兴认识你。", pinyin: "nǐ hǎo, hěn gāo xìng rèn shi nǐ", meaning: "こんにちは、お会いできてうれしいです。" },
+          { speaker: "B", text: "我也是，希望成为朋友。", pinyin: "wǒ yě shì, xī wàng chéng wéi péng you", meaning: "私もです、友達になれたらいいですね。" },
+        ],
+      },
+      [ProficiencyLevel.ELEMENTARY]: {
+        title: "兴趣爱好",
+        description: "交流兴趣爱好找共同话题",
+        objectives: ["介绍爱好", "寻找共同点"],
+        vocab: [
+          v("爱好", "ài hào", "趣味"),
+          v("兴趣", "xìng qù", "興味"),
+          v("相同", "xiāng tóng", "同じ"),
+          v("聊天", "liáo tiān", "おしゃべり"),
+          v("周末", "zhōu mò", "週末"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "你的爱好是什么？", pinyin: "nǐ de ài hào shì shén me?", meaning: "趣味は何？" },
+          { speaker: "B", text: "我们兴趣相同，周末一起聊天吧。", pinyin: "wǒ men xìng qù xiāng tóng, zhōu mò yī qǐ liáo tiān ba", meaning: "興味が同じだね、週末一緒におしゃべりしよう。" },
+        ],
+      },
+      [ProficiencyLevel.INTERMEDIATE]: {
+        title: "约见面",
+        description: "约朋友见面并确定时间地点",
+        objectives: ["发出邀请", "确定时间地点"],
+        vocab: [
+          v("见面", "jiàn miàn", "会う"),
+          v("方便", "fāng biàn", "都合がいい"),
+          v("地点", "dì diǎn", "場所"),
+          v("推迟", "tuī chí", "延期する"),
+          v("确认", "què rèn", "確認する"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "周六见面方便吗？", pinyin: "zhōu liù jiàn miàn fāng biàn ma?", meaning: "土曜に会える？" },
+          { speaker: "B", text: "可以，地点你确认一下，别推迟。", pinyin: "kě yǐ, dì diǎn nǐ què rèn yī xià, bié tuī chí", meaning: "いいよ、場所を確認して、遅らせないでね。" },
+        ],
+      },
+      [ProficiencyLevel.UPPER_INTERMEDIATE]: {
+        title: "深度聊天",
+        description: "更自然地深入交流想法感受",
+        objectives: ["分享感受", "倾听回应"],
+        vocab: [
+          v("想法", "xiǎng fǎ", "考え"),
+          v("倾听", "qīng tīng", "傾聴する"),
+          v("理解", "lǐ jiě", "理解する"),
+          v("支持", "zhī chí", "支える"),
+          v("坦诚", "tǎn chéng", "率直"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "谢谢你愿意倾听我的想法。", pinyin: "xiè xie nǐ yuàn yì qīng tīng wǒ de xiǎng fǎ", meaning: "私の考えを聞いてくれてありがとう。" },
+          { speaker: "B", text: "我理解你，会一直支持你。", pinyin: "wǒ lǐ jiě nǐ, huì yī zhí zhī chí nǐ", meaning: "理解している、ずっと支えるよ。" },
+        ],
+      },
+      [ProficiencyLevel.ADVANCED]: {
+        title: "维系友谊",
+        description: "长期友谊维护与边界表达",
+        objectives: ["表达珍惜", "妥善处理分歧"],
+        vocab: [
+          v("珍惜", "zhēn xī", "大切にする"),
+          v("信任", "xìn rèn", "信頼"),
+          v("距离", "jù lí", "距離"),
+          v("分歧", "fēn qí", "意見の相違"),
+          v("包容", "bāo róng", "包容する"),
+          v("陪伴", "péi bàn", "寄り添う"),
+        ],
+        dialogue: [
+          { speaker: "A", text: "真正的朋友需要信任和包容。", pinyin: "zhēn zhèng de péng you xū yào xìn rèn hé bāo róng", meaning: "本当の友達には信頼と包容が必要だ。" },
+          { speaker: "B", text: "有分歧时坦诚沟通，珍惜这段陪伴。", pinyin: "yǒu fēn qí shí tǎn chéng gōu tōng, zhēn xī zhè duàn péi bàn", meaning: "意見が違うときは率直に話し合い、この寄り添いを大切にしよう。" },
+          { speaker: "A", text: "适当的距离也让友谊更长久。", pinyin: "shì dàng de jù lí yě ràng yǒu yì gèng cháng jiǔ", meaning: "適度な距離も友情を長くする。" },
+        ],
+      },
+    },
+  },
+];

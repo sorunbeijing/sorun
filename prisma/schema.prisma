@@ -57,6 +57,7 @@ model User {
   name         String?
   role         UserRole @default(USER)
   expiresAt    DateTime? @map("expires_at")
+  lastLoginAt  DateTime? @map("last_login_at")
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 

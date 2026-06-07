@@ -1,6 +1,7 @@
 import { Prisma, PrismaClient, ProficiencyLevel, UserRole } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { addYears, defaultExpiresAt } from "../src/lib/user-expiry";
+import { expandLegacyLessonContent } from "./course-data/lesson-expander";
 
 const prisma = new PrismaClient();
 
@@ -13,44 +14,13 @@ const interestTags = [
   { slug: "sports", nameZh: "运动", nameJa: "スポーツ", category: "lifestyle", icon: "⚽", sortOrder: 6 },
   { slug: "tech", nameZh: "科技", nameJa: "テクノロジー", category: "career", icon: "💻", sortOrder: 7 },
   { slug: "history", nameZh: "历史", nameJa: "歴史", category: "culture", icon: "📜", sortOrder: 8 },
+  { slug: "gaming", nameZh: "游戏", nameJa: "ゲーム", category: "entertainment", icon: "🎮", sortOrder: 9 },
+  { slug: "movies", nameZh: "电影", nameJa: "映画", category: "entertainment", icon: "🎬", sortOrder: 10 },
+  { slug: "shopping", nameZh: "购物", nameJa: "ショッピング", category: "lifestyle", icon: "🛍️", sortOrder: 11 },
+  { slug: "workplace", nameZh: "职场", nameJa: "職場", category: "career", icon: "🏢", sortOrder: 12 },
+  { slug: "daily-life", nameZh: "生活日常", nameJa: "日常生活", category: "lifestyle", icon: "🏠", sortOrder: 13 },
+  { slug: "social", nameZh: "交友社交", nameJa: "友人作り・社交", category: "lifestyle", icon: "🤝", sortOrder: 14 },
 ];
-
-function lessonContent(theme: string, vocab: { hanzi: string; pinyin: string; meaning: string }[]) {
-  const v0 = vocab[0] ?? { hanzi: "你好", pinyin: "nǐ hǎo", meaning: "こんにちは" };
-  const v1 = vocab[1] ?? { hanzi: "谢谢", pinyin: "xiè xie", meaning: "ありがとう" };
-  return {
-    theme,
-    steps: [
-      {
-        type: "intro",
-        title: "课程导入",
-        body: `欢迎来到「${theme}」主题中文课，我们将学习 ${vocab.length} 个核心词汇。`,
-      },
-      {
-        type: "vocab",
-        title: "核心词汇",
-        items: vocab,
-      },
-      {
-        type: "dialogue",
-        title: "情景对话",
-        lines: [
-          { speaker: "A", text: v0.hanzi, pinyin: v0.pinyin, meaning: v0.meaning },
-          { speaker: "B", text: v1.hanzi, pinyin: v1.pinyin, meaning: v1.meaning },
-        ],
-      },
-      {
-        type: "summary",
-        title: "本课小结",
-        body: "完成学习后请做测验巩固记忆。",
-      },
-    ],
-  };
-}
-
-function quizContent(questions: { id: string; question: string; options: string[]; answer: number }[]) {
-  return { questions };
-}
 
 const lessonTemplates = [
   {
@@ -247,8 +217,22 @@ async function main() {
 
   console.log("Seeding lesson templates...");
   for (const tpl of lessonTemplates) {
-    const contentJson = lessonContent(tpl.title, tpl.vocab);
-    const quizJson = quizContent(tpl.quiz);
+    const v0 = tpl.vocab[0];
+    const v1 = tpl.vocab[1] ?? tpl.vocab[0];
+    const expanded = expandLegacyLessonContent({
+      theme: tpl.title,
+      title: tpl.title,
+      objectives: [tpl.description],
+      vocab: tpl.vocab,
+      dialogue: [
+        { speaker: "A", text: v0.hanzi, pinyin: v0.pinyin, meaning: v0.meaning },
+        { speaker: "B", text: v1.hanzi, pinyin: v1.pinyin, meaning: v1.meaning },
+      ],
+      quiz: tpl.quiz,
+      slug: tpl.slug,
+      level: tpl.baseLevel,
+      originalDurationMinutes: tpl.durationMinutes,
+    });
 
     const template = await prisma.lessonTemplate.upsert({
       where: { slug: tpl.slug },
@@ -256,20 +240,20 @@ async function main() {
         title: tpl.title,
         description: tpl.description,
         baseLevel: tpl.baseLevel,
-        durationMinutes: tpl.durationMinutes,
+        durationMinutes: expanded.durationMinutes,
         difficulty: tpl.difficulty,
-        contentJson,
-        quizJson,
+        contentJson: expanded.contentJson as Prisma.InputJsonValue,
+        quizJson: expanded.quizJson as Prisma.InputJsonValue,
       },
       create: {
         slug: tpl.slug,
         title: tpl.title,
         description: tpl.description,
         baseLevel: tpl.baseLevel,
-        durationMinutes: tpl.durationMinutes,
+        durationMinutes: expanded.durationMinutes,
         difficulty: tpl.difficulty,
-        contentJson,
-        quizJson,
+        contentJson: expanded.contentJson as Prisma.InputJsonValue,
+        quizJson: expanded.quizJson as Prisma.InputJsonValue,
       },
     });
 

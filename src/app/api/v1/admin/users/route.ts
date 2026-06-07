@@ -15,8 +15,9 @@ export async function GET() {
         name: true,
         role: true,
         expiresAt: true,
+        lastLoginAt: true,
         createdAt: true,
-        profile: { select: { displayName: true } },
+        profile: { select: { displayName: true, level: true } },
       },
     });
 
@@ -27,7 +28,9 @@ export async function GET() {
         name: u.name,
         displayName: u.profile?.displayName,
         role: u.role,
+        level: u.profile?.level ?? "BEGINNER",
         expiresAt: u.expiresAt,
+        lastLoginAt: u.lastLoginAt,
         createdAt: u.createdAt,
       }))
     );

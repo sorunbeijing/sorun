@@ -17,6 +17,7 @@
     "db:migrate-ja": "tsx prisma/migrate-ja-column.ts",
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
+    "db:seed-courses": "tsx prisma/seed-courses.ts",
     "db:sync-lessons-ja": "tsx prisma/sync-lessons-ja.ts",
     "db:studio": "prisma studio",
     "test:smoke": "node scripts/e2e-smoke.mjs",

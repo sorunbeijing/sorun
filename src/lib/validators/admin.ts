@@ -5,6 +5,20 @@ export const patchUserExpireSchema = z.object({
   expiresAt: z.union([z.string().min(1), z.null()]),
 });
 
+export const patchUserPasswordSchema = z
+  .object({
+    new_password: z.string().min(6, "密码至少 6 位"),
+    confirm_password: z.string().min(6, "密码至少 6 位"),
+  })
+  .refine((data) => data.new_password === data.confirm_password, {
+    message: "两次输入的密码不一致",
+    path: ["confirm_password"],
+  });
+
+export const patchUserLevelSchema = z.object({
+  level: z.nativeEnum(ProficiencyLevel),
+});
+
 export const adminLessonSchema = z.object({
   slug: z.string().min(1).max(80),
   title: z.string().min(1).max(200),
